@@ -1,51 +1,77 @@
 ﻿using System;
 
-namespace guessNumber
+namespace ConsoleApp1
 {
     class Program
     {
         static void Main(string[] args)
         {
-            int max = 0;
-            int min = 0;
-            int tryCount = 0;
-            int gamesCount = 0;
-            Random random = new Random();
-            ConsoleKeyInfo tmp;
-            do {
-                gamesCount++;
-                int number = random.Next(1, 101);
-                int attemptCount = 0;
-                while (true)
-                {
-                    attemptCount++;
-                    Console.WriteLine("enter you try in [1; 100] ");
-                    int tries = 0;
-                    while (!int.TryParse(Console.ReadLine(), out tries)
-                        || tries < 1 || tries > 100)
-                    {
-                        Console.WriteLine("error. enter correct number in [1; 100]");
-                    }
-                    if (tries > number)
-                        Console.WriteLine("youer try is more");
-                    else if (tries < number)
-                        Console.WriteLine("your try is less");
-                    else
-                    {
-                        Console.WriteLine("you win");
-                        break;
-                    }
-                }
-                tryCount += attemptCount;
-                if (max < attemptCount) max = attemptCount;
-                min = min == 0 || min > attemptCount ? attemptCount : min;
-                Console.WriteLine("enter Y if you want play again");
-                tmp = Console.ReadKey();
-            } while (tmp.Key == ConsoleKey.Y);
-            Console.WriteLine($"max = {max}\n Min = {min}\n Avg = {(double)tryCount/gamesCount}");
+            int[] nums = { 1, 3, 5, 7, 4, 7 };
+            int k = 3;
+            int c = find(nums, k);
+            Console.WriteLine(c);
+
+
+            //char[] arr = { 'a', 's', 'd', 'f' };
+            //Reverse(arr);
+            //foreach(var elem in arr)
+            //    Console.Write(elem);
+
+
+            //int[] arr1 = { 2, 7, 8, 13, 5, 10, 7 };
+            //int res = Solution(arr1, 25);
+            //Console.WriteLine(res);
 
 
 
         }
+        //static char[] Reverse(char[] array)
+        //{
+        //    for (int l = 0, r = array.Length - 1; l < r; l++, r--)
+        //    {
+        //        char tmp = array[l];
+        //        array[l] = array[r];
+        //        array[r] = tmp;
+        //    }
+        //    return array;
+        //}
+        //        static int Solution(int[] array, int k)
+        //        {
+        //            int maxCount = 0;
+        //            for(int i = 0; i < array.Length; i ++)
+        //            {
+        //                int count = 0;
+        //                int j = i;
+        //                int summ = 0;
+        //                while (j < array.Length && summ + array[j] < k)
+        //                {
+        //                    summ += array[j++];
+        //                    count++;
+        //                }
+        //                maxCount = Math.Max(count, maxCount);
+        //            }
+        //            return maxCount;
+
+        //        }
+
+        static int find(int[] nums, int k)
+        {
+            int left = 0;
+            int curr = 0;
+            int ans = 0;
+            for (int right = 0; right < nums.Length; right++)
+            {
+                curr += nums[right];
+                while (curr > k)
+                {
+                    curr -= nums[left];
+                    left++;
+                }
+                ans = Math.Max(ans, right - left + 1);
+
+            }
+            return ans;
+        }
     }
+
 }
